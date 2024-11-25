@@ -73,7 +73,7 @@ def create_post(request):
         request.session['show_modal'] = True
         return redirect('home')
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -90,7 +90,7 @@ def edit_post(request, id):
     if request.user != post.author:
         return redirect('home')
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
             return redirect('post_detail', id=post.id)

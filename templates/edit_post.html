@@ -3,10 +3,30 @@
 {% block content %}
 <div class="container my-5">
   <h2 class="text-center mb-5 text-primary fw-bold">Edit Post</h2>
-  <form method="post" class="card p-4 shadow-sm">
+  <form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm" id="editPostForm">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary w-100">Save Changes</button>
   </form>
 </div>
+
+<!-- TinyMCE Integration -->
+<script src="https://cdn.tiny.cloud/1/nb9wx71qqrxl92bz997hu86loe17fsiz8w5s62x0b4jew7fz/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: 'textarea',  // Change this value according to your HTML
+    plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+    toolbar_mode: 'floating',
+    toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+    setup: function (editor) {
+      editor.on('change', function () {
+        editor.save();
+      });
+    }
+  });
+
+  document.getElementById('editPostForm').addEventListener('submit', function() {
+    tinymce.triggerSave();
+  });
+</script>
 {% endblock %}

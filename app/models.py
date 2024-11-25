@@ -15,6 +15,7 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
+    photo = models.ImageField(upload_to='post_photos/', blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_author': True})
     categories = models.ManyToManyField(Category)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -4,6 +4,13 @@
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="card p-4 shadow-lg border-0" style="max-width: 500px; width: 100%; border-radius: 15px;">
     <h2 class="text-center mb-4 text-primary fw-bold">Your Profile</h2>
+    <!-- Avatar Section -->
+    <div class="d-flex justify-content-center mb-4">
+      <img src="https://img.icons8.com/bubbles/100/writer-male.png" 
+           alt="Avatar" class="rounded-circle" 
+           style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #007bff;">
+    </div>
+    <!-- Profile Form -->
     <form method="post" novalidate>
       {% csrf_token %}
       <div class="mb-3">
@@ -30,7 +37,11 @@
       </div>
     </form>
     <div class="d-grid mt-3">
-      <a href="{% url 'request_author' %}" class="btn btn-outline-secondary btn-lg">Request Author Status</a>
+      {% if user.is_author %}
+        <button class="btn btn-success btn-lg" disabled>Verified Author</button>
+      {% else %}
+        <a href="{% url 'request_author' %}" class="btn btn-outline-secondary btn-lg">Request Author Status</a>
+      {% endif %}
     </div>
   </div>
 </div>

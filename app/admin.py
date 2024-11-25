@@ -1,7 +1,8 @@
 from django.contrib import admin
-from django.core.mail import send_mail, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from .models import AuthorRequest, Post, Category
+from .forms import PostAdminForm
 
 class AuthorRequestAdmin(admin.ModelAdmin):
     list_display = ['user', 'is_approved', 'request_date']
@@ -23,6 +24,8 @@ class AuthorRequestAdmin(admin.ModelAdmin):
 
     def reject_requests(self, request, queryset):
         for req in queryset:
+            req.user.is_author = False
+            req.user.save()
             subject = 'Author Request Rejected'
             from_email = 'contact@helphash.org'
             to_email = [req.user.email]
@@ -32,6 +35,12 @@ class AuthorRequestAdmin(admin.ModelAdmin):
             msg.send()
             req.delete()
 
+class PostAdmin(admin.ModelAdmin):
+    form = PostAdminForm
+
+    class Media:
+        js = ('https://cdn.tiny.cloud/1/nb9wx71qqrxl92bz997hu86loe17fsiz8w5s62x0b4jew7fz/tinymce/5/tinymce.min.js', 'js/tinymce_init.js')
+
 admin.site.register(AuthorRequest, AuthorRequestAdmin)
-admin.site.register(Post)
+admin.site.register(Post, PostAdmin)
 admin.site.register(Category)

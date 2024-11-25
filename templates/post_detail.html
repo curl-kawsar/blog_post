@@ -1,15 +1,28 @@
-<!-- post_detail.html -->
 {% extends 'base.html' %}
 
 {% block content %}
 <div class="container my-5">
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h2 class="card-title text-primary">{{ post.title }}</h2>
-            <p class="card-text">{{ post.content }}</p>
-            <p class="card-text"><small class="text-muted"><i class="fas fa-user me-2"></i>Author: {{ post.author.username }}</small></p>
-            <p class="card-text"><small class="text-muted"><i class="fas fa-tags me-2"></i>Categories: {{ post.categories.all|join:", " }}</small></p>
+  <h2 class="text-center mb-5 text-primary fw-bold">{{ post.title }}</h2>
+  <div class="card p-4 shadow-sm">
+    <div class="card-body">
+      {% if post.photo %}
+        <div class="mb-4 text-center">
+          <img src="{{ post.photo.url }}" class="img-fluid" alt="Post Photo">
         </div>
+      {% endif %}
+      <div class="mb-4">
+        <div class="card-text" style="white-space: pre-wrap;">{{ post.content|safe }}</div>
+      </div>
+      <div class="mb-4">
+        <p class="card-text"><strong>Categories:</strong> {{ post.categories.all|join:", " }}</p>
+      </div>
+      <div class="mb-4">
+        <p class="card-text"><strong>Author:</strong> {{ post.author.username }}</p>
+      </div>
+      <div class="mb-4">
+        <p class="card-text"><strong>Created at:</strong> {{ post.created_at }}</p>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
