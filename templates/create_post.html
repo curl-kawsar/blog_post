@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center mb-5 text-primary fw-bold">Create a New Post</h2>
+
+  <!-- Form to Create Post -->
+  <form method="post" class="card p-4 shadow-sm">
+    {% csrf_token %}
+    
+    <div class="mb-4">
+      <label for="id_title" class="form-label"><i class="fas fa-heading"></i> Title</label>
+      {{ form.title }}
+    </div>
+
+    <div class="mb-4">
+      <label for="id_content" class="form-label"><i class="fas fa-align-left"></i> Content</label>
+      {{ form.content }}
+    </div>
+
+    <div class="mb-4">
+      <label for="id_categories" class="form-label"><i class="fas fa-tags"></i> Categories</label>
+      {{ form.categories }}
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Create Post</button>
+  </form>
+</div>
+{% endblock %}

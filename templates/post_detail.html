@@ -1,0 +1,15 @@
+<!-- post_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-primary">{{ post.title }}</h2>
+            <p class="card-text">{{ post.content }}</p>
+            <p class="card-text"><small class="text-muted"><i class="fas fa-user me-2"></i>Author: {{ post.author.username }}</small></p>
+            <p class="card-text"><small class="text-muted"><i class="fas fa-tags me-2"></i>Categories: {{ post.categories.all|join:", " }}</small></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

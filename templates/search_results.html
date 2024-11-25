@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container my-5">
+    <h2 class="text-center mb-5 text-primary fw-bold">Search Results</h2>
+    <form method="get" action="{% url 'search_posts' %}" class="mb-4">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <input type="text" name="category" class="form-control" placeholder="Filter by category">
+        </div>
+        <div class="col-md-6">
+          <input type="text" name="author" class="form-control" placeholder="Filter by author">
+        </div>
+        <div class="col-md-12 mt-3">
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-search"></i> Search
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="row g-4">
+      {% if posts %}
+        {% for post in posts %}
+          <div class="col-lg-6 col-md-12">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h3 class="card-title text-primary">{{ post.title }}</h3>
+                <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+                <p class="card-text">
+                  <small class="text-muted">
+                    <i class="fas fa-user me-2"></i>Author: {{ post.author.username }}
+                    {% if post.author.is_author %}
+                      <i class="fas fa-check-circle text-primary ms-1"></i>
+                    {% endif %}
+                  </small>
+                </p>
+                <p class="card-text">
+                  <small class="text-muted">
+                    <i class="fas fa-tags me-2"></i>Categories: {{ post.categories.all|join:", " }}
+                  </small>
+                </p>
+                <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-primary mt-3">
+                  <i class="fas fa-book-open me-1"></i> Read More
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-12">
+          <p class="text-center text-muted">No posts found. Try refining your search!</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
